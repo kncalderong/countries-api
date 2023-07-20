@@ -9,11 +9,9 @@ import React from 'react'
 const Header = () => {
   const { darkTheme, toggleTheme } = useAppContext()
 
-  console.log('darkTheme', darkTheme)
-
   return (
     <header
-      className={`w-full fixed top-0 px-4 py-8 ${
+      className={`w-full top-0 px-4 py-8 ${
         darkTheme ? 'bg-dark-blue' : 'bg-white'
       } flex justify-between items-center shadow-lg`}
     >
