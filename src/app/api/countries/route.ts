@@ -1,8 +1,9 @@
 import { CountryDataType } from '@/types/countriesData'
 import { NextResponse, NextRequest } from 'next/server'
-import data from '@/data/data.json'
+import rawData from '@/data/data.json'
 
 export async function GET(req: NextRequest) {
+  let data = []
   let region = req.nextUrl.searchParams.get('region')
   let search = req.nextUrl.searchParams.get('search') || ''
   let query = `https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags,ccn3`
@@ -16,11 +17,9 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(query)
-    const data = await res.json()
-    return NextResponse.json({ data })
+    data = await res.json()
   } catch (error) {
-    let dataToRetrieve: CountryDataType[] = []
-    data.forEach((item) => {
+    let dataToRetrieve: CountryDataType[] = rawData.map((item) => {
       let country = {
         capital: [item.capital!],
         ccn3: item.alpha3Code,
@@ -35,18 +34,19 @@ export async function GET(req: NextRequest) {
         population: item.population,
         region: item.region,
       }
-      dataToRetrieve.push(country)
+      return country
     })
     if (region) {
       dataToRetrieve = dataToRetrieve.filter(
-        (country) => country.region === region
+        (country) => country.region.toLowerCase() === region
       )
     }
     if (search.length > 0) {
       dataToRetrieve = dataToRetrieve.filter((country) =>
-        country.name.common.includes(search)
+        country.name.common.toLowerCase().includes(search)
       )
     }
-    return NextResponse.json({ data: dataToRetrieve })
+    data = dataToRetrieve
   }
+  return NextResponse.json({ data })
 }
