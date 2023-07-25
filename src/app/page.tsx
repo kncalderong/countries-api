@@ -35,31 +35,43 @@ export default function Home() {
 
   return (
     <main
-      className={`${darkTheme ? 'bg-bg-very-dark-blue' : 'bg-very-light-gray'}`}
+      className={`${
+        darkTheme ? 'bg-bg-very-dark-blue' : 'bg-very-light-gray'
+      } w-full relative`}
     >
-      <div className='flex flex-col gap-8 items-start'>
-        <div
-          className={`flex px-6 py-3 gap-5 justify-between items-center ${
-            darkTheme ? 'bg-dark-blue' : 'bg-white'
-          }`}
-        >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            width={'16px'}
-            color={`${darkTheme ? '#fff' : 'hsl(200, 15%, 8%)'}`}
+      <div className='w-[90%] mx-auto pt-6'>
+        <div className='flex flex-col gap-8 items-start w-full'>
+          <div
+            className={`flex px-6 py-2 gap-4 justify-start items-center rounded-md w-full ${
+              darkTheme ? 'bg-dark-blue' : 'bg-white'
+            }`}
+          >
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              width={'16px'}
+              color={`${darkTheme ? '#fff' : 'hsl(200, 15%, 8%)'}`}
+            />
+            <input
+              type='text'
+              placeholder='Search for a country...'
+              className={`${
+                darkTheme
+                  ? 'bg-dark-blue text-white placeholder:text-white'
+                  : 'bg-white text-text-very-dark-blue placeholder:text-text-very-dark-blue'
+              }  px-4 py-2 `}
+            />
+          </div>
+          <SelectDropdown
+            options={regionOptions}
+            targetValue={selectedRegion}
+            setTargetValue={setSelectedRegion}
           />
-          <input type='text' placeholder='Search for a country...' />
         </div>
-        <SelectDropdown
-          options={regionOptions}
-          targetValue={selectedRegion}
-          setTargetValue={setSelectedRegion}
-        />
-      </div>
-      <div>
-        {data.data.map((country: CountryDataType) => {
-          return <div key={country.ccn3}>{country.name.common}</div>
-        })}
+        <div className='w-[80%] mx-auto pt-6'>
+          {data.data.map((country: CountryDataType) => {
+            return <div key={country.ccn3}>{country.name.common}</div>
+          })}
+        </div>
       </div>
     </main>
   )

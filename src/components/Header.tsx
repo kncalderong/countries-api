@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <header
-      className={`w-full top-0 px-4 py-8 ${
+      className={`w-full relative px-4 py-8 ${
         darkTheme ? 'bg-dark-blue' : 'bg-white'
       } flex justify-between items-center shadow-lg`}
     >
@@ -19,12 +19,12 @@ const Header = () => {
         href={'/'}
         className={`font-extrabold ${
           darkTheme ? 'text-white' : 'text-text-very-dark-blue'
-        }`}
+        } cursor-pointer`}
       >
         Where in the world?
       </Link>
       <div
-        className='flex gap-2 justify-between items-center'
+        className='flex gap-2 justify-between items-center cursor-pointer'
         onClick={() => toggleTheme()}
       >
         <FontAwesomeIcon
