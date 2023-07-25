@@ -1,32 +1,41 @@
 'use client'
 
 import { AllCountriesDataType, CountryDataType } from '@/types/countriesData'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import {
+  faChevronDown,
+  faChevronUp,
+  faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '@/context/appContext'
 import { useEffect, useState } from 'react'
 import { getAllCountries } from '@/lib/getCountries'
+import regionOptions from '@/utils/regionOptions'
+import capitalize from '@/utils/capitalize'
+import SelectDropdown from '@/components/SelectDropdown'
 
 export default function Home() {
   const { darkTheme } = useAppContext()
   const [data, setData] = useState<AllCountriesDataType>({ data: [] })
   const [selectedRegion, setSelectedRegion] = useState('')
+  const [isSelectOpen, setIsSelectOpen] = useState(false)
   const [toSearch, setToSearch] = useState('')
 
   useEffect(() => {
     ;(async () => {
-      const retrievedData = await getAllCountries(toSearch, selectedRegion)
+      const retrievedData = await getAllCountries('', selectedRegion)
       setData(retrievedData)
     })()
   }, [selectedRegion])
 
   console.log('selectedRegion: ', selectedRegion)
+  const toggleSelect = () => {
+    setIsSelectOpen(!isSelectOpen)
+  }
 
   return (
     <main
-      className={`${
-        darkTheme ? 'bg-bg-very-dark-blue' : 'bg-very-light-gray '
-      }`}
+      className={`${darkTheme ? 'bg-bg-very-dark-blue' : 'bg-very-light-gray'}`}
     >
       <div className='flex flex-col gap-8 items-start'>
         <div
@@ -41,18 +50,11 @@ export default function Home() {
           />
           <input type='text' placeholder='Search for a country...' />
         </div>
-        <select
-          name='region'
-          id='region-select'
-          onChange={(e) => setSelectedRegion(e.target.value)}
-        >
-          <option value=''>Filter by Region</option>
-          <option value='africa'>Africa</option>
-          <option value='america'>America</option>
-          <option value='asia'>Asia</option>
-          <option value='europe'>Europe</option>
-          <option value='oceania'>Oceania</option>
-        </select>
+        <SelectDropdown
+          options={regionOptions}
+          targetValue={selectedRegion}
+          setTargetValue={setSelectedRegion}
+        />
       </div>
       <div>
         {data.data.map((country: CountryDataType) => {

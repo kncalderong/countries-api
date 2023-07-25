@@ -20,7 +20,7 @@ module.exports = {
         'bg-very-dark-blue': 'hsl(207, 26%, 17%)',
         'text-very-dark-blue': 'hsl(200, 15%, 8%)',
         'dark-gray': 'hsl(0, 0%, 52%)',
-        'very-light-gray ': 'hsl(0, 0%, 98%)',
+        'very-light-gray': 'hsl(0, 0%, 98%)',
       },
     },
   },
