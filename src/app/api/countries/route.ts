@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     data = await res.json()
   } catch (error) {
     let dataToRetrieve: CountryDataType[] = rawData.map((item) => {
-      let country = {
+      let country: CountryDataType = {
         capital: [item.capital!],
         ccn3: item.alpha3Code,
         flags: {
