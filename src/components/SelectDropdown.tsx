@@ -45,7 +45,7 @@ const SelectDropdown = ({
             darkTheme
               ? 'bg-dark-blue text-white'
               : 'bg-white text-text-very-dark-blue'
-          } absolute px-6 py-4 flex flex-col gap-4 items-start w-full rounded-md left-0 top-[4rem] shadow-md z-40`}
+          } absolute px-6 py-4 flex flex-col gap-2 items-start w-full rounded-md left-0 top-[4rem] shadow-md z-40`}
         >
           {options.map((option, idx) => (
             <div

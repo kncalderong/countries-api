@@ -8,12 +8,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { getAllCountries } from '@/lib/getCountries'
 import regionOptions from '@/utils/regionOptions'
 import SelectDropdown from '@/components/SelectDropdown'
+import Image from 'next/image'
 
 export default function Home() {
   const { darkTheme } = useAppContext()
   const [data, setData] = useState<AllCountriesDataType>({ data: [] })
   const [selectedRegion, setSelectedRegion] = useState('')
-  const [isSelectOpen, setIsSelectOpen] = useState(false)
   const [toSearch, setToSearch] = useState('')
 
   useEffect(() => {
@@ -72,9 +72,45 @@ export default function Home() {
             setTargetValue={setSelectedRegion}
           />
         </div>
-        <div className='w-[80%] mx-auto pt-6'>
+        <div className='w-[80%] mx-auto pt-6 flex flex-col gap-10'>
           {data.data.map((country: CountryDataType) => {
-            return <div key={country.ccn3}>{country.name.common}</div>
+            return (
+              <div
+                key={country.ccn3}
+                className={`rounded-md shadow-lg ${
+                  darkTheme ? 'bg-dark-blue' : 'bg-white'
+                } overflow-hidden`}
+              >
+                <div className='w-full relative h-[180px]'>
+                  <Image
+                    src={country.flags.svg}
+                    alt={country.flags.alt || country.name.common}
+                    fill={true}
+                  />
+                </div>
+                <div
+                  className={`${
+                    darkTheme ? 'text-white' : 'text-text-very-dark-blue'
+                  } flex flex-col p-6 h-[180px]`}
+                >
+                  <h3 className='mb-3 font-bold'>{country.name.common}</h3>
+                  <div className='flex flex-col gap-2 text-xs'>
+                    <div className='flex gap-2'>
+                      <span className='font-bold'>Population: </span>
+                      <span>{country.population}</span>
+                    </div>
+                    <div className='flex gap-2'>
+                      <span className='font-bold'>Region: </span>
+                      <span>{country.region}</span>
+                    </div>
+                    <div className='flex gap-2'>
+                      <span className='font-bold'>Capital: </span>
+                      <span>{country.capital}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
           })}
         </div>
       </div>
