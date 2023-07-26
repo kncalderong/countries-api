@@ -52,7 +52,7 @@ export default function Home() {
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
               width={'16px'}
-              color={`${darkTheme ? '#fff' : 'hsl(200, 15%, 8%)'}`}
+              color={`${darkTheme ? '#fff' : 'hsl(0, 0%, 52%)'}`}
             />
             <input
               type='text'
@@ -61,7 +61,7 @@ export default function Home() {
                 darkTheme
                   ? 'bg-dark-blue text-white placeholder:text-white'
                   : 'bg-white text-text-very-dark-blue placeholder:text-text-very-dark-blue'
-              }  px-4 py-2 `}
+              }  px-4 py-2 text-sm placeholder:text-dark-gray`}
               value={toSearch}
               onChange={optimizedDebounce}
             />

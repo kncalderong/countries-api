@@ -13,7 +13,7 @@ const Header = () => {
     <header
       className={`w-full relative px-4 py-8 ${
         darkTheme ? 'bg-dark-blue' : 'bg-white'
-      } flex justify-between items-center shadow-lg`}
+      } flex justify-between items-center shadow-lg text-sm`}
     >
       <Link
         href={'/'}

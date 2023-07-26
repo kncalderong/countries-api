@@ -23,7 +23,7 @@ const SelectDropdown = ({
   }
 
   return (
-    <div className={`w-[60%] relative`}>
+    <div className={`w-[60%] relative text-sm`}>
       <div
         className={`py-4 px-6 ${
           darkTheme
