@@ -1,17 +1,12 @@
 'use client'
 
 import { AllCountriesDataType, CountryDataType } from '@/types/countriesData'
-import {
-  faChevronDown,
-  faChevronUp,
-  faMagnifyingGlass,
-} from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '@/context/appContext'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getAllCountries } from '@/lib/getCountries'
 import regionOptions from '@/utils/regionOptions'
-import capitalize from '@/utils/capitalize'
 import SelectDropdown from '@/components/SelectDropdown'
 
 export default function Home() {
@@ -28,10 +23,18 @@ export default function Home() {
     })()
   }, [selectedRegion])
 
-  console.log('selectedRegion: ', selectedRegion)
-  const toggleSelect = () => {
-    setIsSelectOpen(!isSelectOpen)
+  const debounce = () => {
+    let timeoutID: ReturnType<typeof setTimeout>
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      setToSearch(e.target.value)
+      clearTimeout(timeoutID)
+      timeoutID = setTimeout(async () => {
+        const retrievedData = await getAllCountries(e.target.value, '')
+        setData(retrievedData)
+      }, 300)
+    }
   }
+  const optimizedDebounce = useMemo(() => debounce(), [])
 
   return (
     <main
@@ -59,6 +62,8 @@ export default function Home() {
                   ? 'bg-dark-blue text-white placeholder:text-white'
                   : 'bg-white text-text-very-dark-blue placeholder:text-text-very-dark-blue'
               }  px-4 py-2 `}
+              value={toSearch}
+              onChange={optimizedDebounce}
             />
           </div>
           <SelectDropdown
