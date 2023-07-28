@@ -17,12 +17,14 @@ export async function getAllCountries(
   return data.json()
 }
 
-export async function getCountryById(slug: string) {
-  const data = await fetch(`${endpoint}/countries/${slug}`)
-
+export async function getCountryById(slug: string, getOnlyName: boolean) {
+  let url = `${endpoint}/countries/${slug}`
+  if (getOnlyName) {
+    url = `${endpoint}/countries/${slug}?getOnlyName=true`
+  }
+  const data = await fetch(url)
   if (!data.ok) {
     throw new Error('Failed to fetch data')
   }
-
   return data.json()
 }
