@@ -9,6 +9,7 @@ import { getAllCountries } from '@/lib/getCountries'
 import regionOptions from '@/utils/regionOptions'
 import SelectDropdown from '@/components/SelectDropdown'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   const { darkTheme } = useAppContext()
@@ -40,7 +41,7 @@ export default function Home() {
     <main
       className={`${
         darkTheme ? 'bg-bg-very-dark-blue' : 'bg-very-light-gray'
-      } w-full relative`}
+      } w-full relative min-h-screen`}
     >
       <div className='w-[90%] mx-auto pt-6'>
         <div className='flex flex-col gap-8 items-start w-full'>
@@ -73,45 +74,54 @@ export default function Home() {
           />
         </div>
         <div className='w-[80%] mx-auto pt-6 flex flex-col gap-10'>
-          {data.data.map((country: CountryDataType) => {
-            return (
-              <div
-                key={country.ccn3}
-                className={`rounded-md shadow-lg ${
-                  darkTheme ? 'bg-dark-blue' : 'bg-white'
-                } overflow-hidden`}
-              >
-                <div className='w-full relative h-[180px]'>
-                  <Image
-                    src={country.flags.svg}
-                    alt={country.flags.alt || country.name.common}
-                    fill={true}
-                  />
-                </div>
-                <div
-                  className={`${
-                    darkTheme ? 'text-white' : 'text-text-very-dark-blue'
-                  } flex flex-col p-6 h-[180px]`}
+          {data.data?.length > 0 ? (
+            data.data.map((country: CountryDataType, idx) => {
+              return (
+                <Link
+                  href={`/countries/${country.ccn3}`}
+                  key={country.ccn3}
+                  className={`rounded-md shadow-lg ${
+                    darkTheme ? 'bg-dark-blue' : 'bg-white'
+                  } overflow-hidden`}
                 >
-                  <h3 className='mb-3 font-bold'>{country.name.common}</h3>
-                  <div className='flex flex-col gap-2 text-xs'>
-                    <div className='flex gap-2'>
-                      <span className='font-bold'>Population: </span>
-                      <span>{country.population}</span>
-                    </div>
-                    <div className='flex gap-2'>
-                      <span className='font-bold'>Region: </span>
-                      <span>{country.region}</span>
-                    </div>
-                    <div className='flex gap-2'>
-                      <span className='font-bold'>Capital: </span>
-                      <span>{country.capital}</span>
+                  <div className='w-full relative h-[180px]'>
+                    <Image
+                      src={country.flags.svg}
+                      alt={country.flags.alt || country.name.common}
+                      fill={true}
+                      sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                      priority={idx === 0}
+                    />
+                  </div>
+                  <div
+                    className={`${
+                      darkTheme
+                        ? 'text-very-light-gray'
+                        : 'text-text-very-dark-blue'
+                    } flex flex-col p-6 h-[180px]`}
+                  >
+                    <h3 className='mb-3 font-bold'>{country.name.common}</h3>
+                    <div className='flex flex-col gap-2 text-xs'>
+                      <div className='flex gap-2'>
+                        <span className='font-semibold'>Population: </span>
+                        <span>{country.population}</span>
+                      </div>
+                      <div className='flex gap-2'>
+                        <span className='font-semibold'>Region: </span>
+                        <span>{country.region}</span>
+                      </div>
+                      <div className='flex gap-2'>
+                        <span className='font-semibold'>Capital: </span>
+                        <span>{country.capital}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )
-          })}
+                </Link>
+              )
+            })
+          ) : (
+            <div>Not result found for that country</div>
+          )}
         </div>
       </div>
     </main>
