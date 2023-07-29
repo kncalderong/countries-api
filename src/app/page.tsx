@@ -48,12 +48,12 @@ export default function Home() {
         darkTheme ? 'bg-bg-very-dark-blue' : 'bg-very-light-gray'
       } w-full relative min-h-screen`}
     >
-      <div className='w-[90%] mx-auto py-6'>
-        <div className='flex flex-col gap-8 items-start w-full'>
+      <div className='w-[90%] mx-auto py-6 2xl:w-[80%] lg:py-14'>
+        <div className='flex flex-col gap-8 items-start w-full lg:flex-row lg:justify-between'>
           <div
-            className={`flex px-6 py-2 gap-4 justify-start items-center rounded-md w-full ${
+            className={`flex px-6 py-2 gap-4 justify-start items-center rounded-md w-full shadow-md ${
               darkTheme ? 'bg-dark-blue' : 'bg-white'
-            }`}
+            } lg:max-w-[580px]`}
           >
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
@@ -65,9 +65,9 @@ export default function Home() {
               placeholder='Search for a country...'
               className={`${
                 darkTheme
-                  ? 'bg-dark-blue text-white placeholder:text-white'
-                  : 'bg-white text-text-very-dark-blue placeholder:text-text-very-dark-blue'
-              }  px-4 py-2 text-sm placeholder:text-dark-gray`}
+                  ? 'bg-dark-blue text-white placeholder:text-[hsl(0,0%,98%)] '
+                  : 'bg-white text-text-very-dark-blue placeholder:text-[hsl(0,0%,52%)] '
+              }  px-4 py-2 text-sm lg:grow lg:py-3`}
               value={toSearch}
               onChange={optimizedDebounce}
             />
@@ -78,7 +78,7 @@ export default function Home() {
             setTargetValue={setSelectedRegion}
           />
         </div>
-        <div className='w-[80%] mx-auto pt-6 flex flex-col gap-10'>
+        <div className='w-[80%] mx-auto pt-6 flex flex-col gap-10 md:flex-row md:flex-wrap lg:w-full lg:py-14 lg:gap-16 2xl:gap-24'>
           {isLoading ? (
             <div className='w-full h-screen flex justify-center items-start pt-16 lg:items-center lg:pt-0'>
               <Spinner />
@@ -91,9 +91,9 @@ export default function Home() {
                   key={country.ccn3}
                   className={`rounded-md shadow-lg ${
                     darkTheme ? 'bg-dark-blue' : 'bg-white'
-                  } overflow-hidden`}
+                  } overflow-hidden md:w-[calc((100%-2.5rem)/2)] lg:w-[calc((100%-12rem)/4)] 2xl:w-[calc((100%-18rem)/4)]`}
                 >
-                  <div className='w-full relative h-[180px]'>
+                  <div className='w-full relative h-[180px] lg:h-[200px]'>
                     <Image
                       src={country.flags.svg}
                       alt={country.flags.alt || country.name.common}
@@ -107,20 +107,28 @@ export default function Home() {
                       darkTheme
                         ? 'text-very-light-gray'
                         : 'text-text-very-dark-blue'
-                    } flex flex-col p-6 h-[180px]`}
+                    } flex flex-col p-6 h-[180px] lg:h-[200px] lg:pt-8`}
                   >
-                    <h3 className='mb-3 font-bold'>{country.name.common}</h3>
-                    <div className='flex flex-col gap-2 text-xs'>
+                    <h3 className='mb-3 font-bold lg:text-lg lg:mb-5'>
+                      {country.name.common}
+                    </h3>
+                    <div className='flex flex-col gap-2 text-xs lg:text-sm'>
                       <div className='flex gap-2'>
-                        <span className='font-semibold'>Population: </span>
+                        <span className='font-semibold lg:font-bold'>
+                          Population:{' '}
+                        </span>
                         <span>{country.population}</span>
                       </div>
                       <div className='flex gap-2'>
-                        <span className='font-semibold'>Region: </span>
+                        <span className='font-semibold lg:font-bold'>
+                          Region:{' '}
+                        </span>
                         <span>{country.region}</span>
                       </div>
                       <div className='flex gap-2'>
-                        <span className='font-semibold'>Capital: </span>
+                        <span className='font-semibold lg:font-bold'>
+                          Capital:{' '}
+                        </span>
                         <span>{country.capital}</span>
                       </div>
                     </div>
@@ -129,7 +137,13 @@ export default function Home() {
               )
             })
           ) : (
-            <div>Not result found for that country</div>
+            <div
+              className={`${
+                darkTheme ? 'text-white' : 'text-text-very-dark-blue'
+              } text-lg`}
+            >
+              Not result found for that country
+            </div>
           )}
         </div>
       </div>
