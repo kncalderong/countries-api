@@ -67,7 +67,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           <Spinner />
         </div>
       ) : (
-        <div className='w-[85%] py-8 mx-auto flex flex-col gap-16'>
+        <div className='w-[85%] py-8 mx-auto flex flex-col gap-16 sm:w-[90%] 2xl:w-[80%]'>
           <button
             type='button'
             onClick={() => router.back()}
@@ -85,8 +85,8 @@ export default function Page({ params }: { params: { slug: string } }) {
             <div className='leading-[normal]'>Back</div>
           </button>
           {countryInfo && (
-            <div className='flex flex-col gap-10'>
-              <div className='w-full relative h-[220px]'>
+            <div className='flex flex-col gap-10 sm:flex-row sm:items-center lg:justify-between 2xl:gap-32'>
+              <div className='w-full relative h-[220px] sm:h-[300px] lg:w-[calc((100%-2.5rem)/2)] lg:h-[400px] 2xl:w-[calc((100%-8rem)/2)] 2xl:h-[500px]'>
                 <Image
                   src={countryInfo.data.flags.svg}
                   alt={
@@ -100,15 +100,17 @@ export default function Page({ params }: { params: { slug: string } }) {
                   darkTheme
                     ? 'text-very-light-gray'
                     : 'text-text-very-dark-blue'
-                }`}
+                } lg:gap-8 2xl:w-[calc((100%-8rem)/2)]`}
               >
-                <h1 className='text-2xl font-bold'>
+                <h1 className='text-2xl font-bold lg:text-3xl'>
                   {countryInfo.data.name.common}
                 </h1>
-                <div className='flex flex-col gap-10 text-sm'>
+                <div className='flex flex-col gap-10 text-sm lg:flex-row lg:text-base 2xl:justify-between'>
                   <div className='flex flex-col gap-3'>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Native Name: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Native Name:{' '}
+                      </span>
                       <span className='font-normal'>
                         {
                           Object.values(countryInfo.data.name.nativeName)[0]
@@ -117,25 +119,35 @@ export default function Page({ params }: { params: { slug: string } }) {
                       </span>
                     </div>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Population: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Population:{' '}
+                      </span>
                       <span className='font-normal '>
-                        {countryInfo.data.population}
+                        {new Intl.NumberFormat('en-US').format(
+                          countryInfo.data.population
+                        )}
                       </span>
                     </div>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Region: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Region:{' '}
+                      </span>
                       <span className='font-normal '>
                         {countryInfo.data.region}
                       </span>
                     </div>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Sub Region: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Sub Region:{' '}
+                      </span>
                       <span className='font-normal '>
                         {countryInfo.data.subregion}
                       </span>
                     </div>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Capital: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Capital:{' '}
+                      </span>
                       <span className='font-normal '>
                         {countryInfo.data.capital}
                       </span>
@@ -143,13 +155,17 @@ export default function Page({ params }: { params: { slug: string } }) {
                   </div>
                   <div className='flex flex-col gap-3'>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Top Level Domain: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Top Level Domain:{' '}
+                      </span>
                       <span className='font-normal '>
                         {countryInfo.data.tld[0]}
                       </span>
                     </div>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Currencies: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Currencies:{' '}
+                      </span>
                       <span className='font-normal '>
                         {Object.values(countryInfo.data.currencies)
                           .map((currency) => currency.name)
@@ -157,15 +173,19 @@ export default function Page({ params }: { params: { slug: string } }) {
                       </span>
                     </div>
                     <div className='flex gap-2'>
-                      <span className='font-semibold'>Languages: </span>
+                      <span className='font-semibold lg:font-bold'>
+                        Languages:{' '}
+                      </span>
                       <span className='font-normal '>
                         {Object.values(countryInfo.data.languages).join(', ')}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className='flex flex-col gap-4'>
-                  <h2>Border Countries:</h2>
+                <div className='flex flex-col gap-4 lg:flex-row lg:mt-8 lg:items-center'>
+                  <h2 className='lg:w-[135px] lg:font-bold'>
+                    Border Countries:
+                  </h2>
                   {isLoadingBorders ? (
                     <div className='w-full h-screen flex justify-center items-center'>
                       <Spinner />

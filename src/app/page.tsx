@@ -117,7 +117,11 @@ export default function Home() {
                         <span className='font-semibold lg:font-bold'>
                           Population:{' '}
                         </span>
-                        <span>{country.population}</span>
+                        <span>
+                          {new Intl.NumberFormat('en-US').format(
+                            country.population
+                          )}
+                        </span>
                       </div>
                       <div className='flex gap-2'>
                         <span className='font-semibold lg:font-bold'>
