@@ -10,17 +10,20 @@ import regionOptions from '@/utils/regionOptions'
 import SelectDropdown from '@/components/SelectDropdown'
 import Image from 'next/image'
 import Link from 'next/link'
+import Spinner from '@/components/Spinner'
 
 export default function Home() {
   const { darkTheme } = useAppContext()
   const [data, setData] = useState<AllCountriesDataType>({ data: [] })
   const [selectedRegion, setSelectedRegion] = useState('')
   const [toSearch, setToSearch] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     ;(async () => {
       const retrievedData = await getAllCountries('', selectedRegion)
       setData(retrievedData)
+      setIsLoading(false)
     })()
   }, [selectedRegion])
 
@@ -28,10 +31,12 @@ export default function Home() {
     let timeoutID: ReturnType<typeof setTimeout>
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       setToSearch(e.target.value)
+      setIsLoading(true)
       clearTimeout(timeoutID)
       timeoutID = setTimeout(async () => {
         const retrievedData = await getAllCountries(e.target.value, '')
         setData(retrievedData)
+        setIsLoading(false)
       }, 300)
     }
   }
@@ -43,7 +48,7 @@ export default function Home() {
         darkTheme ? 'bg-bg-very-dark-blue' : 'bg-very-light-gray'
       } w-full relative min-h-screen`}
     >
-      <div className='w-[90%] mx-auto pt-6'>
+      <div className='w-[90%] mx-auto py-6'>
         <div className='flex flex-col gap-8 items-start w-full'>
           <div
             className={`flex px-6 py-2 gap-4 justify-start items-center rounded-md w-full ${
@@ -74,7 +79,11 @@ export default function Home() {
           />
         </div>
         <div className='w-[80%] mx-auto pt-6 flex flex-col gap-10'>
-          {data.data?.length > 0 ? (
+          {isLoading ? (
+            <div className='w-full h-screen flex justify-center items-start pt-16 lg:items-center lg:pt-0'>
+              <Spinner />
+            </div>
+          ) : data.data?.length > 0 ? (
             data.data.map((country: CountryDataType, idx) => {
               return (
                 <Link
